@@ -5,6 +5,10 @@ let bodyparser = require('body-parser');
 app.use(bodyparser.json());
 let bevTracker = new Array();
 
+let DataStore = require('nedb');
+let db = new DataStore("bev.db");
+db.loadDatabase();
+
 let signs = {
     data: [
         {
