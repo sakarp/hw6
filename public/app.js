@@ -19,8 +19,11 @@ window.addEventListener('load', () => {
         fetch("/getBev")
             .then(response => response.json())
             .then(data => {
-                myData = JSON.parse(data);
+                console.log(data.data);
+                let myData = data.data;
+                //console.log(myData);
                 myData.forEach(element => {
+                    console.log(element);
                     console.log("beverage type is: " + element.type);
                     console.log("number drunk: " + element.number);
                 });

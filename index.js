@@ -30,12 +30,28 @@ app.use("/static", express.static("public"));
 app.post("/bev", (request, response)=>{
     let myBevObj = {type: request.body.type, number: request.body.number, date: Date()};
     bevTracker.push(myBevObj);
-    console.log(bevTracker);
-    response.json({task: "success"});
+    db.insert(bevTracker, (err, newDoc) => {
+        if(err) {
+            response.json({task: "task failed"});
+            return;
+        } else {
+            response.json({task:"success"});
+            return;
+        }
+    });
 });
 
 app.get("/getBev", (request, response)=>{
-    response.json(JSON.stringify(bevTracker));
+    db.find({},(err, docs) => {
+        if (err){ 
+            response.json({task: "task failed"});
+            return;
+        } else {
+            let toSend = {data: docs};
+            response.json(toSend);
+        }
+
+    });
 });
 
 app.get("/", (request, response) => {
