@@ -1,6 +1,9 @@
 const { request, response } = require('express');
 let express = require('express');
 let app = express();
+let bodyparser = require('body-parser');
+app.use(bodyparser.json());
+let bevTracker = new Array();
 
 let signs = {
     data: [
@@ -18,16 +21,26 @@ let signs = {
         }
     ]
 }; 
-
 app.use("/static", express.static("public"));
 
+app.post("/bev", (request, response)=>{
+    let myBevObj = {type: request.body.type, number: request.body.number, date: Date()};
+    bevTracker.push(myBevObj);
+    console.log(bevTracker);
+    response.json({task: "success"});
+});
+
+app.get("/getBev", (request, response)=>{
+    response.json(JSON.stringify(bevTracker));
+});
+
 app.get("/", (request, response) => {
-    console.log(request.url);
+    //console.log(request.url);
     response.send("@root");
 });
 
 app.get("/about", (request, response) => {
-    console.log(request.url);
+    //console.log(request.url);
     response.send("@about");
 });
 
